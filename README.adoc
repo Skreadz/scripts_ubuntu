@@ -2,46 +2,18 @@
 :toc:
 :sectnums:
 
-[red]#*Les playbooks sont supportés pour des modifications sur une distribution >= Ubuntu 20.04*#
+Ce repository contient différents scripts ubuntu (en bash).
 
-Ce repository contient différents playbooks Ansible permettant de faire des modifcations de type sécurité, nom de postes, groupes etc... sur des postes ubuntu.
+== passphrase_crcitech.sh
 
-== Description des rôles
+unwrap la passphrase d'un dossier chiffré ecryptfs + écriture dans un fichier texte avec login+hostname+date + 
 
-* `grub` : copie le nouveau mot de passe grub.
+Montage d'un dossier partagé windows + déplacement du ficher +
 
-* `hostname` : télécharge un script bash qui modifie automatiquement le nom du pc en fonction du TAG PC. Le script se trouve sur le repo helpdesk.
-
-* `modif_pc` : Création d'un groupe "util". Modification du fichier /etc/sudoers pour des filtrages sécurité, bloquer certaines commandes etc.. Ajout d'un timeout de 300sec pour les connexions ssh.
-
-* `root_pwd` : Changement mot de passe pour root.
-
-* `sqli_pwd` : Changement mot de passe pour le compte admin sqli.
-
-* `tanium` : Télécharge, extrait et installe l'agent tanium. 
+Ecriture hostname dans le fichier /etc/hostname
 
 
-== Clé SSH ansible
-
-Pour lancer ces playbooks à distance, il est nécéssaire d'ajuster les ip visées dans le fichier inventory/hosts.ini.
-
-La clé privé ssh ansible se trouve dans le keeper. Il est nécessaire qu'elle se trouve sur le pc en local.
-
-Cette clé ssh doit etre en chmod 600.
-
-== Commande
-
-[source, bash]
-----
-ansible-playbook -u root -i inventory/hosts.ini modif_pc.yml --private-key ~/Documents/ssh/ansible --ask-vault-password -l 'hosts_bdx'
-----
-Vault password est le mot de passe adminsqli (keeper)
-
-== Autre rôle
-
-* `user_group_util` : ajoute l'utilisateur aux groupes 'adm,cdrom,util,dip,plugdev,lpadmin,docker,sambashare,vboxusers,netdev'
-
-[source, bash]
-----
-ansible-playbook -u root -i inventory/hosts.ini groups.yml --private-key ~/Documents/ssh/ansible --ask-vault-password -l 'hosts_bdx' --extra-vars user=<LOGIN_COLLAB>
-----
+#[source, bash]
+#----
+#ansible-playbook -u root -i inventory/hosts.ini modif_pc.yml #--private-key ~/Documents/ssh/ansible --ask-vault-password -l #'hosts_bdx'
+#----
